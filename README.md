@@ -29,3 +29,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Node JS Server
 Run `npm run start:server` for a dev node js server. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files since we are using nodemon.
 
+##Mongo DB
+mongo DB cluster URL: https://cloud.mongodb.com/v2/5da35690553855934f396291#clusters
+Username: Vinaykumar
+password: Aqapv209j
+
