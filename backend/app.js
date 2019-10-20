@@ -1,8 +1,9 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const Post = require('./models/post');
+const postRoutes = require('./routes/posts');
 const app = express();
 mongoose.connect('mongodb+srv://vinay:kRaRB0CaZUCT8gos@cluster0-h35hz.mongodb.net/node-angular?retryWrites=true&w=majority', {useNewUrlParser: true})
     .then(() => {
@@ -14,7 +15,7 @@ mongoose.connect('mongodb+srv://vinay:kRaRB0CaZUCT8gos@cluster0-h35hz.mongodb.ne
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
+app.use('/images', express.static(path.join('backend/images')));
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
@@ -22,31 +23,13 @@ app.use((req, res, next) => {
         'Origin, X-Requested-With, Content-Type, Accept'
     );
     res.setHeader(
-        'Access-Control-Allow-Method',
-        'GET, POST, PATCH, DELETE, OPTIONS'
+        'Access-Control-Allow-Methods',
+        'GET, POST, PATCH, PUT,  DELETE, OPTIONS'
     );
     next();
 })
 
-app.post('/api/posts', (req, res, next)=>{
-    const post = new Post({
-        title: req.body.title,
-        content: req.body.content
-    })
-    post.save();
-    res.status(201).json({
-        message: 'Post added successfully'
-    });
-});
-
-app.get('/api/posts', (req, res, next)=>{
-    Post.find().then((documents) => {
-        res.status(200).json({
-            message: 'Post fetched Successfully',
-            posts: documents
-        })
-    });
-})
+app.use('/api/posts', postRoutes);
 
 
 module.exports = app;

@@ -29,6 +29,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Node JS Server
 Run `npm run start:server` for a dev node js server. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files since we are using nodemon.
 
+## DB Connection check
+If node server failed to connect to DB saying connection failed,  Please update the current Ip address in the following url:
+https://cloud.mongodb.com/v2/5da35690553855934f396291#security/network/whitelist
+
+
 ## Mongo DB
 mongo DB cluster URL: https://cloud.mongodb.com/v2/5da35690553855934f396291#clusters
 Username: Vinaykumar
