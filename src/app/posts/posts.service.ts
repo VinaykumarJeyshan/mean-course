@@ -5,6 +5,9 @@ import { map } from 'rxjs/operators';
 
 import { Post } from './post.model';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
+
+const POST_URL = environment.apiUrl + '/posts/';
 
 @Injectable({providedIn: 'root'})
 export class PostService {
@@ -14,7 +17,7 @@ export class PostService {
     constructor(private http: HttpClient, private router: Router) {}
     getPosts(postsPerPage: number, currentPage: number) {
         const queryParams = `?pagesize=${postsPerPage}&&page=${currentPage}`;
-        this.http.get<{message: string, posts: any, maxPosts: number}>('http://localhost:3000/api/posts' + queryParams)
+        this.http.get<{message: string, posts: any, maxPosts: number}>(POST_URL + queryParams)
             .pipe(map((postData) => {
                 return { posts: postData.posts.map(post => {
                     return {
@@ -48,7 +51,7 @@ export class PostService {
             imagePath: string,
             creator: string
         }>(
-            'http://localhost:3000/api/posts/' + postId);
+            POST_URL + postId);
     }
 
     addPost(title: string, content: string, image: File) {
@@ -57,7 +60,7 @@ export class PostService {
         postData.append('title', title);
         postData.append('content', content);
         postData.append('image', image, title);
-        this.http.post<{message: string, post: Post}>('http://localhost:3000/api/posts', postData)
+        this.http.post<{message: string, post: Post}>(POST_URL, postData)
             .subscribe((responseData) => {
                 this.router.navigate(['/']);
             });
@@ -81,13 +84,13 @@ export class PostService {
             };
         }
         // const post: Post = { id, title, content, imagePath: null };
-        this.http.put('http://localhost:3000/api/posts/' + id, postData)
+        this.http.put(POST_URL + id, postData)
             .subscribe((response) => {
                 this.router.navigate(['/']);
             });
     }
 
     deletePost(postId: string) {
-        return this.http.delete('http://localhost:3000/api/posts/' + postId);
+        return this.http.delete(POST_URL + postId);
     }
 }
